@@ -26,12 +26,14 @@ class Student {
       return "F";
     }
 }
-void displayresults(){
+
+//Displaying results
+void displayResults(){
   print (" ${name}'s average grade is ${myAverage()} ");
 }
 }
 
 void main(){
-  student student = student();
-  [p[]]
+  Student student = Student();
+  student.displayResults();
 }
