@@ -1,18 +1,21 @@
 // Use the same programm and ensure that attributes of the class are nullable
 // with a default value to ensure that you dont have any null exeptions
+// null means something is allowed to be empty
 
 import 'dart:io';
 class Student {
   String? name;
-  int? data_structures;
-  int? flutter;
-  int? data_science;
+  int? system_analysis;
+  int? python;
+  int? data_science; 
 
   // Constructor with default values
-  Student({this.name = "Unknown", this.data_structures = 0, this.flutter = 0, this.data_science= 0});
+  Student({this.name = "Unknown", this.system_analysis = 0, this.python = 0, this.data_science= 0});
+//But you’ve provided default values in the constructor, so if the user doesn’t enter anything:// name defaults to "Unknown".// All marks default to 0.
 
   double getAverage() {
-    return ((data_structures ?? 0) + (flutter ?? 0) + (data_science ?? 0)) / 3;
+    return ((system_analysis ?? 0) + (python ?? 0) + (data_science ?? 0)) / 3;
+    // The ?? 0 ensures that if any field is null, it’s treated as 0
   }
 
   String getGrade() {
@@ -26,9 +29,17 @@ class Student {
   }
 
   void display() {
-    print("\nStudent Name: ${name ?? "No name"}");
-    print("Average: ${getAverage().toStringAsFixed(2)}");
-    print("Grade: ${getGrade()}");
+
+    // print("\nStudent Name: ${name ?? "No name"}");
+
+    // when i use the first commented out print,  stdin.readLineSync() never returns null when you just press Enter — it returns an empty string "".
+// In Dart, an empty string "" is not null.
+// So the ?? "No name" operator does not trigger, because the variable name is technically not null; it’s "".
+    
+    print("\nStudent Name: ${name == null || name!.isEmpty ? "No name" : name}");
+    // name == null → catches null values, name!.isEmpty → catches empty string ""
+    print("Average marks: ${getAverage().toStringAsFixed(2)}");
+    print("Student's Grade: ${getGrade()}");
   }
 }
 
@@ -36,13 +47,17 @@ void main() {
   stdout.write("Enter student's name: ");
   String? name = stdin.readLineSync();
 
-  stdout.write("Enter data_structures: ");
-  int m1 = int.parse(stdin.readLineSync() ?? "0");
-  stdout.write("Enter flutter: ");
+  stdout.write("Enter marks for system_analysis: ");
+  // int m1 = int.parse(stdin.readLineSync() ?? "0"); 
+  //we use tryParse bcs it returns null if conversion fails rather than parse
+  int m1 = int.tryParse(stdin.readLineSync() ?? '') ?? 0;
+
+  stdout.write("Enter marks for python: ");
   int m2 = int.parse(stdin.readLineSync() ?? "0");
-  stdout.write("Enter data_science: ");
+  
+  stdout.write("Enter marks for data_science: ");
   int m3 = int.parse(stdin.readLineSync() ?? "0");
 
-  Student s = Student(name: name, data_structures: m1, flutter: m2, data_science: m3);
+  Student s = Student(name: name, system_analysis: m1, python: m2, data_science: m3);
   s.display();
 }

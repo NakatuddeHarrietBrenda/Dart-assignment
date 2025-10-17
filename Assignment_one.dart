@@ -30,6 +30,7 @@ class Student {
 //Displaying results
 void displayResults(){
   print (" ${name}'s average grade is ${myAverage()} ");
+  print (" ${name}'s grade is ${getGrade()} ");
 }
 }
 
